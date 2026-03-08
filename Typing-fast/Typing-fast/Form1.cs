@@ -17,23 +17,62 @@ namespace Typing_fast
         public Form1()
         {
             InitializeComponent();
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("Легкий");
+            comboBox1.Items.Add("Средний");
+            comboBox1.Items.Add("Сложный");
+            comboBox1.SelectedIndex = 0;
+            InitializeTexts();
+            LoadTextByLevel();
+        }
+        private Dictionary<string, string[]> textsByLevel;
+
+        private void InitializeTexts()
+        {
+            textsByLevel = new Dictionary<string, string[]>
+            {
+                ["Легкий"] = new string[]
+                {
+            "кот собака дом",
+            "мама мыла раму",
+            "зеленый чай",
+            "солнце светит",
+            "я люблю спать"
+                },
+                ["Средний"] = new string[]
+                {
+            "быстрая лиса прыгает через собаку",
+            "программировать на C# интересно",
+            "сегодня хорошая погода на улице",
+            "учёба свет а неученье тьма",
+            "каждый охотник желает знать"
+                },
+                ["Сложный"] = new string[]
+                {
+            "Чем больше вы практикуетесь в печати, тем быстрее развивается мышечная память пальцев.",
+            "Для успешного изучения программирования необходимо регулярно писать код и разбирать чужие примеры.",
+            "В сложных текстах используются знаки препинания: точки, запятые, восклицательные знаки!",
+            "Скорость печати измеряется в символах в минуту и зависит от регулярности тренировок."
+                }
+            };
+        }
+        private void LoadTextByLevel()
+        {
+            if (comboBox1.SelectedItem == null)
+            {
+                comboBox1.SelectedIndex = 0;
+            }
+
+            string level = comboBox1.SelectedItem.ToString();
+            string[] texts = textsByLevel[level];
+            Random rand = new Random();
+            int index = rand.Next(texts.Length);
+            label4.Text = texts[index];
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] texts = new string[]
-   {
-        "кот собака дом солнце",
-        "мама мыла раму",
-        "зеленый чай вкусный",
-        "я люблю программировать",
-        "сегодня хорошая погода",
-        "быстрый коричневый лис",
-        "привет как дела"
-   };
-            Random rand = new Random();
-            int index = rand.Next(texts.Length);
-            label4.Text = texts[index];
+            LoadTextByLevel();
             textBox1.Clear();
             isStarted = false;
             label5.Text = "0";
